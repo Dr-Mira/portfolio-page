@@ -15,9 +15,3 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
-
-# Backup folder (used during setup)
-assets-backup/
-
-# Note: assets/ is a git submodule pointing to portfolio-page-assets
-# It is intentionally NOT ignored so the submodule reference is tracked
