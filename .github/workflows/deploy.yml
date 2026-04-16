@@ -18,12 +18,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Typst
-        uses: typst-community/setup-typst@v3
-
-      - name: Compile Resume
-        run: typst compile assets/resume_kaspar.typ assets/resume_kaspar.pdf
-
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
