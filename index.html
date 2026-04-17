@@ -276,6 +276,105 @@
       opacity: 0.3;
     }
 
+    /* Carousel Styles */
+    .carousel {
+      position: relative;
+      width: 100%;
+    }
+
+    .carousel-images {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--surface) 100%);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .carousel-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-images img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--text-main);
+      box-shadow: var(--shadow-md);
+      transition: all 0.2s ease;
+      z-index: 10;
+    }
+
+    .carousel-arrow:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .carousel-arrow.prev {
+      left: 12px;
+    }
+
+    .carousel-arrow.next {
+      right: 12px;
+    }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .carousel-dot.active {
+      background: var(--primary);
+      transform: scale(1.2);
+    }
+
+    .carousel-dot:hover {
+      background: var(--primary-hover);
+    }
+
+    [data-theme="dark"] .carousel-arrow {
+      background: rgba(40, 35, 30, 0.9);
+      color: var(--text-main);
+    }
+
+    [data-theme="dark"] .carousel-arrow:hover {
+      background: var(--primary);
+      color: white;
+    }
+
     .project-content {
       display: flex;
       flex-direction: column;
@@ -515,16 +614,28 @@
     <article class="project-section fade-in">
       <div class="project-container">
         <div class="project-visual">
-          <div class="project-image">
-            <img src="assets/liquid-handler/liquid_handler_2.jpg" alt="Robotic Liquid Handler" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="project-image-placeholder" style="display: none;">🤖</div>
+          <div class="carousel" data-carousel="liquid-handler">
+            <div class="carousel-images">
+              <div class="carousel-track">
+                <img src="assets/liquid-handler/dillution_plate.jpg" alt="Dilution Plate" data-index="0">
+                <img src="assets/liquid-handler/liquid_handler_1.jpg" alt="Liquid Handler 1" data-index="1">
+                <img src="assets/liquid-handler/liquid_handler_2.jpg" alt="Liquid Handler 2" data-index="2">
+              </div>
+            </div>
+            <button class="carousel-arrow prev" aria-label="Previous image">‹</button>
+            <button class="carousel-arrow next" aria-label="Next image">›</button>
+            <div class="carousel-dots">
+              <button class="carousel-dot active" data-index="0" aria-label="Go to image 1"></button>
+              <button class="carousel-dot" data-index="1" aria-label="Go to image 2"></button>
+              <button class="carousel-dot" data-index="2" aria-label="Go to image 3"></button>
+            </div>
           </div>
         </div>
         <div class="project-content">
           <h2>Robotic Liquid Handler</h2>
           <p class="project-description">
-            Custom-built from a repurposed Creality 3D printer, replacing manual pipetting end-to-end. 
-            Enabled 5× throughput scale-up of thiomorpholino oligonucleotide synthesis with precise 
+            Custom-built from a repurposed Creality 3D printer, replacing manual pipetting end-to-end.
+            Enabled 5× throughput scale-up of thiomorpholino oligonucleotide synthesis with precise
             liquid handling and automated workflow control.
           </p>
           <div class="project-links">
@@ -734,6 +845,75 @@
           });
         }
       });
+    });
+
+    // Carousel functionality
+    document.querySelectorAll('.carousel').forEach(carousel => {
+      const track = carousel.querySelector('.carousel-track');
+      const images = carousel.querySelectorAll('.carousel-track img');
+      const dots = carousel.querySelectorAll('.carousel-dot');
+      const prevBtn = carousel.querySelector('.carousel-arrow.prev');
+      const nextBtn = carousel.querySelector('.carousel-arrow.next');
+      let currentIndex = 0;
+      const totalImages = images.length;
+      let autoAdvanceTimer = null;
+
+      function showImage(index) {
+        // Wrap around
+        if (index < 0) index = totalImages - 1;
+        if (index >= totalImages) index = 0;
+
+        currentIndex = index;
+
+        // Slide the track
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+        // Update dots
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === currentIndex);
+        });
+      }
+
+      function getRandomInterval() {
+        // Random time between 10-15 seconds (10000-15000 ms)
+        return Math.floor(Math.random() * 5000) + 10000;
+      }
+
+      function scheduleNextAdvance() {
+        clearTimeout(autoAdvanceTimer);
+        autoAdvanceTimer = setTimeout(() => {
+          showImage(currentIndex + 1);
+          scheduleNextAdvance();
+        }, getRandomInterval());
+      }
+
+      function stopAutoAdvance() {
+        clearTimeout(autoAdvanceTimer);
+      }
+
+      prevBtn.addEventListener('click', () => {
+        showImage(currentIndex - 1);
+        scheduleNextAdvance();
+      });
+
+      nextBtn.addEventListener('click', () => {
+        showImage(currentIndex + 1);
+        scheduleNextAdvance();
+      });
+
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          showImage(index);
+          scheduleNextAdvance();
+        });
+      });
+
+      // Pause auto-advance when hovering over the carousel
+      carousel.addEventListener('mouseenter', stopAutoAdvance);
+      carousel.addEventListener('mouseleave', scheduleNextAdvance);
+
+      // Start auto-advance
+      scheduleNextAdvance();
     });
   </script>
 </body>
