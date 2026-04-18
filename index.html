@@ -298,11 +298,16 @@
       transition: transform 0.5s ease-in-out;
     }
 
-    .carousel-images img {
+    .carousel-images img,
+    .carousel-images video {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       flex-shrink: 0;
+    }
+
+    .carousel-images video {
+      background: #000;
     }
 
     .carousel-arrow {
@@ -617,9 +622,14 @@
           <div class="carousel" data-carousel="liquid-handler">
             <div class="carousel-images">
               <div class="carousel-track">
-                <img src="assets/liquid-handler/dillution_plate.jpg" alt="Dilution Plate" data-index="0">
-                <img src="assets/liquid-handler/liquid_handler_1.jpg" alt="Liquid Handler 1" data-index="1">
-                <img src="assets/liquid-handler/liquid_handler_2.jpg" alt="Liquid Handler 2" data-index="2">
+                <img src="assets/liquid-handler/carousel_01.jpg" alt="Liquid Handler 1" data-index="0">
+                <img src="assets/liquid-handler/carousel_02.jpg" alt="Liquid Handler 2" data-index="1">
+                <img src="assets/liquid-handler/carousel_03.jpg" alt="Liquid Handler 3" data-index="2">
+                <img src="assets/liquid-handler/carousel_04.jpg" alt="Liquid Handler 4" data-index="3">
+                <img src="assets/liquid-handler/carousel_05.jpg" alt="Liquid Handler 5" data-index="4">
+                <img src="assets/liquid-handler/carousel_06.jpg" alt="Liquid Handler 6" data-index="5">
+                <img src="assets/liquid-handler/carousel_07.jpg" alt="Liquid Handler 7" data-index="6">
+                <img src="assets/liquid-handler/carousel_08.jpg" alt="Liquid Handler 8" data-index="7">
               </div>
             </div>
             <button class="carousel-arrow prev" aria-label="Previous image">‹</button>
@@ -628,6 +638,11 @@
               <button class="carousel-dot active" data-index="0" aria-label="Go to image 1"></button>
               <button class="carousel-dot" data-index="1" aria-label="Go to image 2"></button>
               <button class="carousel-dot" data-index="2" aria-label="Go to image 3"></button>
+              <button class="carousel-dot" data-index="3" aria-label="Go to image 4"></button>
+              <button class="carousel-dot" data-index="4" aria-label="Go to image 5"></button>
+              <button class="carousel-dot" data-index="5" aria-label="Go to image 6"></button>
+              <button class="carousel-dot" data-index="6" aria-label="Go to image 7"></button>
+              <button class="carousel-dot" data-index="7" aria-label="Go to image 8"></button>
             </div>
           </div>
         </div>
@@ -850,28 +865,69 @@
     // Carousel functionality
     document.querySelectorAll('.carousel').forEach(carousel => {
       const track = carousel.querySelector('.carousel-track');
-      const images = carousel.querySelectorAll('.carousel-track img');
+      const slides = carousel.querySelectorAll('.carousel-track > *');
       const dots = carousel.querySelectorAll('.carousel-dot');
       const prevBtn = carousel.querySelector('.carousel-arrow.prev');
       const nextBtn = carousel.querySelector('.carousel-arrow.next');
       let currentIndex = 0;
-      const totalImages = images.length;
+      const totalSlides = slides.length;
       let autoAdvanceTimer = null;
+      let currentVideo = null;
+      const carouselImages = carousel.querySelector('.carousel-images');
+      const aspectRatios = new Map();
 
-      function showImage(index) {
-        // Wrap around
-        if (index < 0) index = totalImages - 1;
-        if (index >= totalImages) index = 0;
-
-        currentIndex = index;
-
-        // Slide the track
-        track.style.transform = `translateX(-${currentIndex * 100}%)`;
-
-        // Update dots
-        dots.forEach((dot, i) => {
-          dot.classList.toggle('active', i === currentIndex);
+      // Preload images and store their aspect ratios
+      function preloadAspectRatios() {
+        slides.forEach((slide, idx) => {
+          if (slide.tagName === 'IMG') {
+            // If image is already loaded, get dimensions directly
+            if (slide.complete && slide.naturalWidth) {
+              const ratio = slide.naturalWidth / slide.naturalHeight;
+              aspectRatios.set(idx, ratio);
+            } else {
+              // Otherwise wait for it to load
+              slide.addEventListener('load', () => {
+                const ratio = slide.naturalWidth / slide.naturalHeight;
+                aspectRatios.set(idx, ratio);
+                // Update aspect ratio if this is the currently visible slide
+                if (idx === currentIndex) {
+                  updateAspectRatio(idx);
+                }
+              });
+            }
+          } else if (slide.tagName === 'VIDEO') {
+            // For videos, wait for metadata to load
+            slide.addEventListener('loadedmetadata', () => {
+              const ratio = slide.videoWidth / slide.videoHeight;
+              aspectRatios.set(idx, ratio);
+              if (idx === currentIndex) {
+                updateAspectRatio(idx);
+              }
+            });
+          }
         });
+      }
+
+      // Update the carousel container's aspect ratio
+      function updateAspectRatio(index) {
+        const ratio = aspectRatios.get(index);
+        if (ratio) {
+          carouselImages.style.aspectRatio = `${ratio}`;
+        }
+      }
+
+      function stopCurrentVideo() {
+        if (currentVideo) {
+          currentVideo.pause();
+          currentVideo.currentTime = 0;
+          currentVideo.removeEventListener('ended', handleVideoEnded);
+          currentVideo = null;
+        }
+      }
+
+      function handleVideoEnded() {
+        stopCurrentVideo();
+        showSlide(currentIndex + 1);
       }
 
       function getRandomInterval() {
@@ -882,8 +938,7 @@
       function scheduleNextAdvance() {
         clearTimeout(autoAdvanceTimer);
         autoAdvanceTimer = setTimeout(() => {
-          showImage(currentIndex + 1);
-          scheduleNextAdvance();
+          showSlide(currentIndex + 1);
         }, getRandomInterval());
       }
 
@@ -891,29 +946,83 @@
         clearTimeout(autoAdvanceTimer);
       }
 
+      function showSlide(index) {
+        // Wrap around
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+
+        // Stop any currently playing video
+        stopCurrentVideo();
+
+        currentIndex = index;
+
+        // Slide the track
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+        // Update dots
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === currentIndex);
+        });
+
+        // Update aspect ratio for the current slide
+        updateAspectRatio(currentIndex);
+
+        // Check if current slide is a video
+        const currentSlide = slides[currentIndex];
+        if (currentSlide.tagName === 'VIDEO') {
+          currentVideo = currentSlide;
+          currentVideo.addEventListener('ended', handleVideoEnded);
+          // Play the video
+          currentVideo.play().catch(err => {
+            console.log('Video autoplay failed:', err);
+            // If autoplay fails, fall back to timer
+            scheduleNextAdvance();
+          });
+        } else {
+          // For images, schedule next advance
+          scheduleNextAdvance();
+        }
+      }
+
       prevBtn.addEventListener('click', () => {
-        showImage(currentIndex - 1);
-        scheduleNextAdvance();
+        stopCurrentVideo();
+        showSlide(currentIndex - 1);
       });
 
       nextBtn.addEventListener('click', () => {
-        showImage(currentIndex + 1);
-        scheduleNextAdvance();
+        stopCurrentVideo();
+        showSlide(currentIndex + 1);
       });
 
       dots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
-          showImage(index);
-          scheduleNextAdvance();
+          stopCurrentVideo();
+          showSlide(index);
         });
       });
 
       // Pause auto-advance when hovering over the carousel
-      carousel.addEventListener('mouseenter', stopAutoAdvance);
-      carousel.addEventListener('mouseleave', scheduleNextAdvance);
+      carousel.addEventListener('mouseenter', () => {
+        stopAutoAdvance();
+        if (currentVideo) {
+          currentVideo.pause();
+        }
+      });
 
-      // Start auto-advance
-      scheduleNextAdvance();
+      carousel.addEventListener('mouseleave', () => {
+        if (currentVideo) {
+          currentVideo.play().catch(() => {
+            // If play fails, just advance
+            showSlide(currentIndex + 1);
+          });
+        } else {
+          scheduleNextAdvance();
+        }
+      });
+
+      // Start with the first slide
+      preloadAspectRatios();
+      showSlide(0);
     });
   </script>
 </body>
