@@ -284,8 +284,10 @@
 
     .carousel-images {
       position: relative;
+      height: 672px;
       width: 100%;
-      aspect-ratio: 4/3;
+      max-width: 100%;
+      margin: 0 auto;
       background: linear-gradient(135deg, var(--primary-light) 0%, var(--surface) 100%);
       border-radius: 20px;
       overflow: hidden;
@@ -295,11 +297,14 @@
     .carousel-track {
       display: flex;
       height: 100%;
+      width: 100%;
       transition: transform 0.5s ease-in-out;
+      will-change: transform;
     }
 
     .carousel-images img,
     .carousel-images video {
+      min-width: 100%;
       width: 100%;
       height: 100%;
       object-fit: contain;
@@ -865,56 +870,39 @@
     // Carousel functionality
     document.querySelectorAll('.carousel').forEach(carousel => {
       const track = carousel.querySelector('.carousel-track');
-      const slides = carousel.querySelectorAll('.carousel-track > *');
-      const dots = carousel.querySelectorAll('.carousel-dot');
+      let slides = Array.from(carousel.querySelectorAll('.carousel-track > *'));
+      let dots = [];
       const prevBtn = carousel.querySelector('.carousel-arrow.prev');
       const nextBtn = carousel.querySelector('.carousel-arrow.next');
       let currentIndex = 0;
-      const totalSlides = slides.length;
+      const carouselImages = carousel.querySelector('.carousel-images');
       let autoAdvanceTimer = null;
       let currentVideo = null;
-      const carouselImages = carousel.querySelector('.carousel-images');
-      const aspectRatios = new Map();
 
-      // Preload images and store their aspect ratios
-      function preloadAspectRatios() {
-        slides.forEach((slide, idx) => {
-          if (slide.tagName === 'IMG') {
-            // If image is already loaded, get dimensions directly
-            if (slide.complete && slide.naturalWidth) {
-              const ratio = slide.naturalWidth / slide.naturalHeight;
-              aspectRatios.set(idx, ratio);
-            } else {
-              // Otherwise wait for it to load
-              slide.addEventListener('load', () => {
-                const ratio = slide.naturalWidth / slide.naturalHeight;
-                aspectRatios.set(idx, ratio);
-                // Update aspect ratio if this is the currently visible slide
-                if (idx === currentIndex) {
-                  updateAspectRatio(idx);
-                }
-              });
-            }
-          } else if (slide.tagName === 'VIDEO') {
-            // For videos, wait for metadata to load
-            slide.addEventListener('loadedmetadata', () => {
-              const ratio = slide.videoWidth / slide.videoHeight;
-              aspectRatios.set(idx, ratio);
-              if (idx === currentIndex) {
-                updateAspectRatio(idx);
-              }
-            });
-          }
-        });
+      function extractCarouselNumber(slide) {
+        const src = slide.getAttribute('src') || '';
+        const match = src.match(/carousel_(\d+)\.jpg$/i);
+        return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER;
       }
 
-      // Update the carousel container's aspect ratio
-      function updateAspectRatio(index) {
-        const ratio = aspectRatios.get(index);
-        if (ratio) {
-          carouselImages.style.aspectRatio = `${ratio}`;
-        }
-      }
+      // Keep image order deterministic across browsers by sorting slides by filename number.
+      const sortedSlides = [...slides].sort((a, b) => extractCarouselNumber(a) - extractCarouselNumber(b));
+      sortedSlides.forEach(slide => track.appendChild(slide));
+      slides = Array.from(track.children);
+
+      // Rebuild dots to match the current slide order and count.
+      const dotsContainer = carousel.querySelector('.carousel-dots');
+      dotsContainer.innerHTML = '';
+      slides.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.className = `carousel-dot${index === 0 ? ' active' : ''}`;
+        dot.setAttribute('data-index', String(index));
+        dot.setAttribute('aria-label', `Go to image ${index + 1}`);
+        dotsContainer.appendChild(dot);
+      });
+      dots = Array.from(dotsContainer.querySelectorAll('.carousel-dot'));
+
+      const totalSlides = slides.length;
 
       function stopCurrentVideo() {
         if (currentVideo) {
@@ -956,16 +944,13 @@
 
         currentIndex = index;
 
-        // Slide the track
-        track.style.transform = `translateX(-${currentIndex * 100}%)`;
-
         // Update dots
         dots.forEach((dot, i) => {
           dot.classList.toggle('active', i === currentIndex);
         });
 
-        // Update aspect ratio for the current slide
-        updateAspectRatio(currentIndex);
+        // Update aspect ratio for the current slide first; the translation is
+        track.style.transform = `translateX(-${currentIndex * carouselImages.offsetWidth}px)`;
 
         // Check if current slide is a video
         const currentSlide = slides[currentIndex];
@@ -1021,7 +1006,6 @@
       });
 
       // Start with the first slide
-      preloadAspectRatios();
       showSlide(0);
     });
   </script>
