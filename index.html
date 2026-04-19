@@ -285,7 +285,7 @@
     .carousel-images {
       position: relative;
       height: 672px;
-      width: 100%;
+      width: auto;
       max-width: 100%;
       margin: 0 auto;
       background: linear-gradient(135deg, var(--primary-light) 0%, var(--surface) 100%);
@@ -886,6 +886,38 @@
       let autoAdvanceTimer = null;
       let currentVideo = null;
 
+      function getSlideAspectRatio(slide) {
+        if (!slide) return null;
+
+        if (slide.tagName === 'IMG') {
+          return slide.naturalWidth > 0 && slide.naturalHeight > 0
+            ? slide.naturalWidth / slide.naturalHeight
+            : null;
+        }
+
+        if (slide.tagName === 'VIDEO') {
+          return slide.videoWidth > 0 && slide.videoHeight > 0
+            ? slide.videoWidth / slide.videoHeight
+            : null;
+        }
+
+        return null;
+      }
+
+      function applyFrameSizeForSlide(slide) {
+        const ratio = getSlideAspectRatio(slide);
+        if (!ratio) {
+          carouselImages.style.width = '100%';
+          return;
+        }
+
+        const frameHeight = carouselImages.clientHeight;
+        const desiredWidth = frameHeight * ratio;
+        const maxAllowedWidth = carouselImages.parentElement.clientWidth;
+        const finalWidth = Math.min(desiredWidth, maxAllowedWidth);
+        carouselImages.style.width = `${finalWidth}px`;
+      }
+
       function extractCarouselNumber(slide) {
         const src = slide.getAttribute('src') || '';
         const match = src.match(/carousel_(\d+)\.jpg$/i);
@@ -961,6 +993,8 @@
           slide.classList.toggle('active', i === currentIndex);
         });
 
+        applyFrameSizeForSlide(slides[currentIndex]);
+
         // Check if current slide is a video
         const currentSlide = slides[currentIndex];
         if (currentSlide.tagName === 'VIDEO') {
@@ -1016,6 +1050,24 @@
 
       // Start with the first slide
       showSlide(0);
+
+      // Keep frame sizing in sync with viewport changes.
+      window.addEventListener('resize', () => {
+        applyFrameSizeForSlide(slides[currentIndex]);
+      });
+
+      // Re-apply sizing once image/video metadata is available.
+      slides.forEach((slide) => {
+        if (slide.tagName === 'IMG') {
+          if (!slide.complete) {
+            slide.addEventListener('load', () => applyFrameSizeForSlide(slides[currentIndex]));
+          }
+        }
+
+        if (slide.tagName === 'VIDEO') {
+          slide.addEventListener('loadedmetadata', () => applyFrameSizeForSlide(slides[currentIndex]));
+        }
+      });
     });
   </script>
 </body>
