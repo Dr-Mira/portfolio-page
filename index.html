@@ -295,20 +295,27 @@
     }
 
     .carousel-track {
-      display: flex;
+      position: relative;
       height: 100%;
       width: 100%;
-      transition: transform 0.5s ease-in-out;
-      will-change: transform;
+      overflow: hidden;
     }
 
     .carousel-images img,
     .carousel-images video {
-      min-width: 100%;
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: contain;
-      flex-shrink: 0;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+      pointer-events: none;
+    }
+
+    .carousel-track > *.active {
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .carousel-images video {
@@ -949,8 +956,10 @@
           dot.classList.toggle('active', i === currentIndex);
         });
 
-        // Update aspect ratio for the current slide first; the translation is
-        track.style.transform = `translateX(-${currentIndex * carouselImages.offsetWidth}px)`;
+        // Ensure exactly one visible slide for deterministic behavior across browsers.
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('active', i === currentIndex);
+        });
 
         // Check if current slide is a video
         const currentSlide = slides[currentIndex];
