@@ -451,7 +451,10 @@
       text-decoration: none;
       font-weight: 500;
       font-size: 0.95rem;
+      border: none;
       border-radius: 10px;
+      cursor: pointer;
+      font-family: inherit;
       transition: all 0.2s;
       box-shadow: var(--shadow-md);
     }
@@ -472,84 +475,6 @@
       border-color: var(--primary);
       color: var(--primary);
       background: transparent;
-    }
-
-    .video-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.72);
-      padding: 2rem;
-    }
-
-    .video-modal.open {
-      display: flex;
-    }
-
-    .video-modal-content {
-      width: min(960px, 100%);
-      max-height: calc(100vh - 4rem);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: var(--shadow-lg);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .video-modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 1rem 1.25rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .video-modal-header h3 {
-      margin: 0;
-      font-size: 1.15rem;
-    }
-
-    .video-modal-close {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--text-main);
-      cursor: pointer;
-      font-size: 1.25rem;
-      line-height: 1;
-      transition: all 0.2s;
-    }
-
-    .video-modal-close:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-    }
-
-    .video-modal-body {
-      padding: 1rem 1.25rem 1.25rem;
-      display: grid;
-      gap: 1rem;
-    }
-
-    .video-modal-player {
-      width: 100%;
-      max-height: 60vh;
-      border-radius: 12px;
-      background: #000;
-    }
-
-    .video-modal-description {
-      color: var(--text-muted);
-      margin: 0;
-      font-size: 0.98rem;
     }
 
     /* Contact Section */
@@ -663,17 +588,6 @@
         justify-content: center;
       }
 
-      .video-modal {
-        padding: 1rem;
-      }
-
-      .video-modal-content {
-        max-height: calc(100vh - 2rem);
-      }
-
-      .video-modal-player {
-        max-height: 45vh;
-      }
     }
 
     /* Scroll animations */
@@ -692,7 +606,7 @@
 <body>
   <nav>
     <div class="nav-content">
-      <a href="#" class="nav-brand">Mira Kašpar</a>
+      <a href="#" class="nav-brand">Míra</a>
       <div class="nav-links">
         <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
@@ -733,6 +647,7 @@
                 <img src="assets/liquid-handler/carousel_06.jpg" alt="Liquid Handler 6" data-index="5">
                 <img src="assets/liquid-handler/carousel_07.jpg" alt="Liquid Handler 7" data-index="6">
                 <img src="assets/liquid-handler/carousel_08.jpg" alt="Liquid Handler 8" data-index="7">
+                <video class="liquid-handler-inline-video" controls muted playsinline preload="metadata" aria-label="Liquid handler workflow video"></video>
               </div>
             </div>
             <button class="carousel-arrow prev" aria-label="Previous image">‹</button>
@@ -751,16 +666,30 @@
         </div>
         <div class="project-content">
           <h2>Robotic Liquid Handler</h2>
-          <p class="project-description">
-            Custom-built from a repurposed Creality 3D printer, replacing manual pipetting end-to-end.
-            Enabled 5× throughput scale-up of thiomorpholino oligonucleotide synthesis with precise
-            liquid handling and automated workflow control.
+          <p class="project-description" id="liquid-handler-description">
+            From a refurbished 3D printer. The racks, base, pipette holder, calibration tabs, are custom designed and
+            3D printed. The pipette itself is a commercial analytical 1 mL pipette. Machine kinetics system has
+            sub 0.1 mm accuracy, and thanks to the pipette, the liquid accuracy and precision are both about 1%, which
+            is on par with state-of-the-art machines.<br><br>
+
+            Supports up to 3×96 well plates, Eppis, 15/50 mL Falcon tubes, and 4 mL vials. Includes liquid-air eject
+            (for remaining liquid), reliable tip pick/eject, aspirate–dispense mixing, and volatile-friendly transport
+            offsets for solvents such as ACN and MeOH.<br><br>
+
+            Motion and liquid routines are driven by a Python control script with a custom user interface that sends G-code over serial.
+            It also manages calibration/config values from config json, giving a practical balance of precision control and easy tuning.
           </p>
           <div class="project-links">
-            <button type="button" class="project-link video-open-btn" data-video-src="assets/liquid-handler/liquid_handler_home.mp4" data-video-name="liquid_handler_home.mp4">Home Routine</button>
-            <button type="button" class="project-link video-open-btn" data-video-src="assets/liquid-handler/liquid_handler_aliquot.mp4" data-video-name="liquid_handler_aliquot.mp4">Aliquoting</button>
-            <button type="button" class="project-link video-open-btn" data-video-src="assets/liquid-handler/liquid_handler_matrix.mp4" data-video-name="liquid_handler_matrix.mp4">Matrix Pattern</button>
-            <button type="button" class="project-link video-open-btn" data-video-src="assets/liquid-handler/liquid_handler_tips.mp4" data-video-name="liquid_handler_tips.mp4">Tip Handling</button>
+            <a href="https://github.com/Dr-Mira/liquid-handler" class="project-link project-link-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <button type="button" class="project-link project-link-secondary video-gallery-btn">Gallery</button>
+            <button type="button" class="project-link video-open-btn" data-video-src="assets/liquid-handler/liquid_handler_home.mp4" data-video-name="liquid_handler_home.mp4"
+                    data-description="Autofind zero position on startup, verifies axis homing.">Home Routine</button>
+            <button type="button" class="project-link video-open-btn" data-video-src="assets/liquid-handler/liquid_handler_aliquot.mp4" data-video-name="liquid_handler_aliquot.mp4"
+                    data-description="Equally distributes defined volume into defined containers.">Aliquoting</button>
+            <button type="button" class="project-link video-open-btn" data-video-src="assets/liquid-handler/liquid_handler_matrix.mp4" data-video-name="liquid_handler_matrix.mp4"
+                    data-description="Multi-well dispense paths for high-throughput condition screening across plate coordinates. Demo is colorized for visualization.">Matrix Pattern</button>
+            <button type="button" class="project-link video-open-btn" data-video-src="assets/liquid-handler/liquid_handler_tips.mp4" data-video-name="liquid_handler_tips.mp4"
+                    data-description="Robustness test of pipette management, pick/eject all tips in random order.">Tip Handling</button>
           </div>
         </div>
       </div>
@@ -900,19 +829,6 @@
 
   </section>
 
-  <div class="video-modal" id="video-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="video-modal-title">
-    <div class="video-modal-content">
-      <div class="video-modal-header">
-        <h3 id="video-modal-title">Liquid Handler Demo</h3>
-        <button type="button" class="video-modal-close" id="video-modal-close" aria-label="Close video modal">×</button>
-      </div>
-      <div class="video-modal-body">
-        <video id="video-modal-player" class="video-modal-player" controls autoplay muted playsinline></video>
-        <p id="video-modal-description" class="video-modal-description"></p>
-      </div>
-    </div>
-  </div>
-
   <!-- Contact -->
   <section class="contact" id="contact">
     <div class="contact-content fade-in">
@@ -981,84 +897,9 @@
       });
     });
 
-    const videoModal = document.getElementById('video-modal');
-    const videoModalTitle = document.getElementById('video-modal-title');
-    const videoModalDescription = document.getElementById('video-modal-description');
-    const videoModalPlayer = document.getElementById('video-modal-player');
-    const videoModalClose = document.getElementById('video-modal-close');
-
-    function buildVideoDescription(fileName) {
-      const cleanName = (fileName || '')
-        .replace(/\.mp4$/i, '')
-        .replace(/^liquid_handler_/i, '')
-        .replace(/_/g, ' ')
-        .trim();
-
-      const readable = cleanName
-        .split(' ')
-        .filter(Boolean)
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
-
-      const label = readable || 'Liquid Handler Sequence';
-      return `Preview of the ${label} workflow. This clip highlights how the robotic liquid handler executes this operation with repeatable positioning and automated pipetting control.`;
-    }
-
-    function openVideoModal(videoSrc, videoName) {
-      if (!videoSrc) return;
-
-      const readableTitle = (videoName || 'Liquid Handler Demo')
-        .replace(/\.mp4$/i, '')
-        .replace(/^liquid_handler_/i, '')
-        .replace(/_/g, ' ')
-        .trim()
-        .split(' ')
-        .filter(Boolean)
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ') || 'Liquid Handler Demo';
-
-      videoModalTitle.textContent = readableTitle;
-      videoModalDescription.textContent = buildVideoDescription(videoName);
-      videoModalPlayer.src = videoSrc;
-      videoModalPlayer.muted = true;
-      videoModalPlayer.volume = 0;
-      videoModal.classList.add('open');
-      videoModal.setAttribute('aria-hidden', 'false');
-
-      videoModalPlayer.play().catch(() => {
-        // Controls remain visible so the user can start playback manually if autoplay is blocked.
-      });
-    }
-
-    function closeVideoModal() {
-      videoModal.classList.remove('open');
-      videoModal.setAttribute('aria-hidden', 'true');
-      videoModalPlayer.pause();
-      videoModalPlayer.removeAttribute('src');
-      videoModalPlayer.load();
-    }
-
-    document.querySelectorAll('.video-open-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        openVideoModal(btn.dataset.videoSrc, btn.dataset.videoName);
-      });
-    });
-
-    videoModalClose.addEventListener('click', closeVideoModal);
-
-    videoModal.addEventListener('click', (event) => {
-      if (event.target === videoModal) {
-        closeVideoModal();
-      }
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && videoModal.classList.contains('open')) {
-        closeVideoModal();
-      }
-    });
-
     // Carousel functionality
+    const carouselControllers = new Map();
+
     document.querySelectorAll('.carousel').forEach(carousel => {
       const track = carousel.querySelector('.carousel-track');
       let slides = Array.from(carousel.querySelectorAll('.carousel-track > *'));
@@ -1142,8 +983,8 @@
       }
 
       function getRandomInterval() {
-        // Random time between 10-15 seconds (10000-15000 ms)
-        return Math.floor(Math.random() * 5000) + 10000;
+        // Random time between 25-35 seconds (25000-35000 ms)
+        return Math.floor(Math.random() * 10000) + 25000;
       }
 
       function scheduleNextAdvance() {
@@ -1184,6 +1025,8 @@
         if (currentSlide.tagName === 'VIDEO') {
           currentVideo = currentSlide;
           currentVideo.addEventListener('ended', handleVideoEnded);
+          // While video is playing, disable auto image switching.
+          stopAutoAdvance();
           // Play the video
           currentVideo.play().catch(err => {
             console.log('Video autoplay failed:', err);
@@ -1252,6 +1095,58 @@
           slide.addEventListener('loadedmetadata', () => applyFrameSizeForSlide(slides[currentIndex]));
         }
       });
+
+      carouselControllers.set(carousel.dataset.carousel, {
+        showSlide,
+        stopCurrentVideo,
+        getSlides: () => slides
+      });
+    });
+
+    const liquidHandlerCarousel = document.querySelector('[data-carousel="liquid-handler"]');
+    const liquidHandlerController = carouselControllers.get('liquid-handler');
+    const liquidHandlerVideo = liquidHandlerCarousel?.querySelector('.liquid-handler-inline-video');
+    const liquidHandlerDescription = document.getElementById('liquid-handler-description');
+    const liquidHandlerDefaultDescription = liquidHandlerDescription?.textContent.trim() || '';
+
+    document.querySelectorAll('.video-open-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!liquidHandlerController || !liquidHandlerVideo) return;
+
+        const videoSrc = btn.dataset.videoSrc;
+        if (!videoSrc) return;
+
+        const descriptionText = btn.dataset.description?.trim() || btn.textContent?.trim() || '';
+        if (liquidHandlerDescription && descriptionText) {
+          liquidHandlerDescription.textContent = descriptionText;
+        }
+
+        liquidHandlerController.stopCurrentVideo();
+        liquidHandlerVideo.src = videoSrc;
+        liquidHandlerVideo.muted = true;
+        liquidHandlerVideo.volume = 0;
+
+        const slides = liquidHandlerController.getSlides();
+        const videoIndex = slides.indexOf(liquidHandlerVideo);
+        if (videoIndex !== -1) {
+          liquidHandlerController.showSlide(videoIndex);
+        }
+      });
+    });
+
+    const galleryButton = document.querySelector('.video-gallery-btn');
+    galleryButton?.addEventListener('click', () => {
+      if (!liquidHandlerController || !liquidHandlerVideo) return;
+
+      if (liquidHandlerDescription) {
+        liquidHandlerDescription.textContent = liquidHandlerDefaultDescription;
+      }
+
+      liquidHandlerController.stopCurrentVideo();
+      liquidHandlerVideo.pause();
+      liquidHandlerVideo.removeAttribute('src');
+      liquidHandlerVideo.load();
+      liquidHandlerController.showSlide(0);
     });
   </script>
 </body>
