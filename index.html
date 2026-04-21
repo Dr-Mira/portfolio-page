@@ -477,6 +477,19 @@
       background: transparent;
     }
 
+    .project-link-disabled {
+      opacity: 0.55;
+      filter: grayscale(100%);
+    }
+
+    .project-link-disabled:hover {
+      border-color: var(--border);
+      color: var(--text-main);
+      background: transparent;
+      transform: none;
+      box-shadow: var(--shadow-md);
+    }
+
     /* Contact Section */
     .contact {
       padding: 6rem 2rem;
@@ -675,11 +688,11 @@
             is on par with state-of-the-art machines.<br><br>
 
             Supports up to 3×96 well plates, Eppis, 15/50 mL Falcon tubes, and 4 mL vials. Includes liquid-air eject
-            (for remaining liquid), reliable tip pick/eject, aspirate–dispense mixing, and volatile-friendly transport
+            (for remaining liquid), reliable tip pick/drop, aspirate–dispense mixing, and volatile-friendly transport
             offsets for solvents such as ACN and MeOH.<br><br>
 
             Motion and liquid routines are driven by a Python control script with a custom user interface that sends G-code over serial.
-            It also manages calibration/config values from config json, giving a practical balance of precision control and easy tuning.
+            It also manages calibration/config values from local json, giving a practical balance of readability and easy tuning.
           </p>
           <div class="project-links">
             <a href="https://github.com/Dr-Mira/liquid-handler" class="project-link project-link-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -701,19 +714,30 @@
     <article class="project-section fade-in">
       <div class="project-container">
         <div class="project-visual">
-          <div class="project-image">
-            <div class="project-image-placeholder">📚</div>
+          <div class="carousel" data-carousel="oligo-lims" data-autoload-folder="assets/oligo-lims" data-autoload-alt="Oligonucleotide LIMS">
+            <div class="carousel-images">
+              <div class="carousel-track"></div>
+            </div>
+            <button class="carousel-arrow prev" aria-label="Previous image">‹</button>
+            <button class="carousel-arrow next" aria-label="Next image">›</button>
+            <div class="carousel-dots"></div>
           </div>
         </div>
         <div class="project-content">
           <h2>Oligonucleotide LIMS</h2>
           <p class="project-description">
-            In-house Laboratory Information Management System with barcode-tracked samples for 
-            complete physical-digital traceability. Manages oligonucleotide synthesis workflows 
-            from design to purification with automated audit capture.
+            Full-stack LIMS focused on day-to-day lab operations: barcode scan lookup, batch import/validation,
+            inventory search and status tracking, automatic oligo .mol file creation, calculation of molar/monoisotopic mass,
+            PDF/CSV export, snapshot backup/restore, complete audit capture, and file storage of synthesis protocols and
+            oligo analytical data.<br><br>
+
+            Stack: Python FastAPI backend with a Jinja + JavaScript frontend. Data is stored in a JSON tree: each oligo
+            lives in a folder keyed by a generated 6-character base62 hash, and audit trails are decoupled into per-entity
+            log files so history stays intact through updates, trash/restore, and deletes.
           </p>
           <div class="project-links">
-            <a href="#" class="project-link">View Details →</a>
+            <button type="button" class="project-link project-link-secondary project-link-disabled oligo-lims-private-repo-btn">GitHub</button>
+            <button type="button" class="project-link project-link-secondary oligo-lims-gallery-btn">Gallery</button>
           </div>
         </div>
       </div>
@@ -723,8 +747,13 @@
     <article class="project-section fade-in">
       <div class="project-container">
         <div class="project-visual">
-          <div class="project-image">
-            <div class="project-image-placeholder">📊</div>
+          <div class="carousel" data-carousel="barcode-scanner" data-autoload-folder="assets/barcode-scanner" data-autoload-alt="2D Barcode Scanner">
+            <div class="carousel-images">
+              <div class="carousel-track"></div>
+            </div>
+            <button class="carousel-arrow prev" aria-label="Previous image">‹</button>
+            <button class="carousel-arrow next" aria-label="Next image">›</button>
+            <div class="carousel-dots"></div>
           </div>
         </div>
         <div class="project-content">
@@ -745,8 +774,13 @@
     <article class="project-section fade-in">
       <div class="project-container">
         <div class="project-visual">
-          <div class="project-image">
-            <div class="project-image-placeholder">⚡</div>
+          <div class="carousel" data-carousel="nmr-photoreator" data-autoload-folder="assets/nmr-photoreator" data-autoload-alt="In-situ NMR Photoreactor">
+            <div class="carousel-images">
+              <div class="carousel-track"></div>
+            </div>
+            <button class="carousel-arrow prev" aria-label="Previous image">‹</button>
+            <button class="carousel-arrow next" aria-label="Next image">›</button>
+            <div class="carousel-dots"></div>
           </div>
         </div>
         <div class="project-content">
@@ -767,8 +801,13 @@
     <article class="project-section fade-in">
       <div class="project-container">
         <div class="project-visual">
-          <div class="project-image">
-            <div class="project-image-placeholder">🌈</div>
+          <div class="carousel" data-carousel="uv-vis-photoreator" data-autoload-folder="assets/uv-vis-photoreator" data-autoload-alt="UV-Vis Photoreactor">
+            <div class="carousel-images">
+              <div class="carousel-track"></div>
+            </div>
+            <button class="carousel-arrow prev" aria-label="Previous image">‹</button>
+            <button class="carousel-arrow next" aria-label="Next image">›</button>
+            <div class="carousel-dots"></div>
           </div>
         </div>
         <div class="project-content">
@@ -789,8 +828,13 @@
     <article class="project-section fade-in">
       <div class="project-container">
         <div class="project-visual">
-          <div class="project-image">
-            <div class="project-image-placeholder">🦠</div>
+          <div class="carousel" data-carousel="bio-photoreactor" data-autoload-folder="assets/bio-photoreactor" data-autoload-alt="Bio Photoreactor">
+            <div class="carousel-images">
+              <div class="carousel-track"></div>
+            </div>
+            <button class="carousel-arrow prev" aria-label="Previous image">‹</button>
+            <button class="carousel-arrow next" aria-label="Next image">›</button>
+            <div class="carousel-dots"></div>
           </div>
         </div>
         <div class="project-content">
@@ -807,12 +851,45 @@
       </div>
     </article>
 
-    <!-- Project 8: Photochemistry Tools -->
+    <!-- Project 8: Plate Illumination Scanner -->
     <article class="project-section fade-in">
       <div class="project-container">
         <div class="project-visual">
-          <div class="project-image">
-            <div class="project-image-placeholder">💡</div>
+          <div class="carousel" data-carousel="plate-illumination-scanner" data-autoload-folder="assets/plate-illumination-scanner" data-autoload-alt="Plate Illumination Scanner">
+            <div class="carousel-images">
+              <div class="carousel-track"></div>
+            </div>
+            <button class="carousel-arrow prev" aria-label="Previous image">‹</button>
+            <button class="carousel-arrow next" aria-label="Next image">›</button>
+            <div class="carousel-dots"></div>
+          </div>
+        </div>
+        <div class="project-content">
+          <h2>Plate Illumination Scanner</h2>
+          <p class="project-description">
+            A two-axis robotic scanner equipped with a digital light sensor quantifies light distribution across the plate.
+            The scanner sequentially measures illumination of each well, while two synchronized Arduino boards optimize
+            individual diode power to maximize irradiance uniformity across the board. Eg. the robot tries to find a
+            minimal across setting of energy level of 5 diedes simoutneously - 5D problem.
+          </p>
+          <div class="project-links">
+            <a href="#" class="project-link">View Details →</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Project 9: Photochemistry Tools -->
+    <article class="project-section fade-in">
+      <div class="project-container">
+        <div class="project-visual">
+          <div class="carousel" data-carousel="photochemistry-software" data-autoload-folder="assets/photochemistry-software" data-autoload-alt="Photochemistry Analysis Tools">
+            <div class="carousel-images">
+              <div class="carousel-track"></div>
+            </div>
+            <button class="carousel-arrow prev" aria-label="Previous image">‹</button>
+            <button class="carousel-arrow next" aria-label="Next image">›</button>
+            <div class="carousel-dots"></div>
           </div>
         </div>
         <div class="project-content">
@@ -900,11 +977,56 @@
     });
 
     // Carousel functionality
-    const carouselControllers = new Map();
+    function canLoadImage(src) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = src;
+      });
+    }
 
-    document.querySelectorAll('.carousel').forEach(carousel => {
+    async function populateAutoCarouselTracks() {
+      const autoCarousels = Array.from(document.querySelectorAll('.carousel[data-autoload-folder]'));
+
+      for (const carousel of autoCarousels) {
+        const folder = carousel.dataset.autoloadFolder;
+        const altPrefix = carousel.dataset.autoloadAlt || 'Carousel image';
+        const track = carousel.querySelector('.carousel-track');
+
+        if (!folder || !track) continue;
+
+        track.innerHTML = '';
+
+        let imageIndex = 1;
+        while (true) {
+          const fileName = `carousel_${String(imageIndex).padStart(2, '0')}.jpg`;
+          const src = `${folder}/${fileName}`;
+          const exists = await canLoadImage(src);
+
+          if (!exists) break;
+
+          const img = document.createElement('img');
+          img.src = src;
+          img.alt = `${altPrefix} ${imageIndex}`;
+          img.setAttribute('data-index', String(imageIndex - 1));
+          track.appendChild(img);
+
+          imageIndex += 1;
+        }
+      }
+    }
+
+    async function initializeCarousels() {
+      await populateAutoCarouselTracks();
+
+      const carouselControllers = new Map();
+
+      document.querySelectorAll('.carousel').forEach(carousel => {
       const track = carousel.querySelector('.carousel-track');
-      let slides = Array.from(carousel.querySelectorAll('.carousel-track > *'));
+      const inlineVideoSlide = carousel.querySelector('.liquid-handler-inline-video');
+      let slides = Array.from(carousel.querySelectorAll('.carousel-track > *'))
+        .filter(slide => !slide.classList.contains('liquid-handler-inline-video'));
       let dots = [];
       const prevBtn = carousel.querySelector('.carousel-arrow.prev');
       const nextBtn = carousel.querySelector('.carousel-arrow.next');
@@ -912,6 +1034,12 @@
       const carouselImages = carousel.querySelector('.carousel-images');
       let autoAdvanceTimer = null;
       let currentVideo = null;
+
+      function clearExternalVideoState() {
+        if (inlineVideoSlide) {
+          inlineVideoSlide.classList.remove('active');
+        }
+      }
 
       function getSlideAspectRatio(slide) {
         if (!slide) return null;
@@ -954,7 +1082,8 @@
       // Keep image order deterministic across browsers by sorting slides by filename number.
       const sortedSlides = [...slides].sort((a, b) => extractCarouselNumber(a) - extractCarouselNumber(b));
       sortedSlides.forEach(slide => track.appendChild(slide));
-      slides = Array.from(track.children);
+      slides = Array.from(track.children)
+        .filter(slide => !slide.classList.contains('liquid-handler-inline-video'));
 
       // Rebuild dots to match the current slide order and count.
       const dotsContainer = carousel.querySelector('.carousel-dots');
@@ -969,12 +1098,19 @@
       dots = Array.from(dotsContainer.querySelectorAll('.carousel-dot'));
 
       const totalSlides = slides.length;
+      if (totalSlides === 0) {
+        if (prevBtn) prevBtn.style.display = 'none';
+        if (nextBtn) nextBtn.style.display = 'none';
+        if (dotsContainer) dotsContainer.style.display = 'none';
+        return;
+      }
 
       function stopCurrentVideo() {
         if (currentVideo) {
           currentVideo.pause();
           currentVideo.currentTime = 0;
           currentVideo.removeEventListener('ended', handleVideoEnded);
+          currentVideo.classList.remove('active');
           currentVideo = null;
         }
       }
@@ -1007,6 +1143,7 @@
 
         // Stop any currently playing video
         stopCurrentVideo();
+        clearExternalVideoState();
 
         currentIndex = index;
 
@@ -1041,12 +1178,32 @@
         }
       }
 
-      prevBtn.addEventListener('click', () => {
+      function showExternalVideo(videoEl) {
+        if (!videoEl || videoEl.tagName !== 'VIDEO') return;
+
+        stopCurrentVideo();
+        clearExternalVideoState();
+        stopAutoAdvance();
+
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        currentVideo = videoEl;
+        currentVideo.classList.add('active');
+        currentVideo.addEventListener('ended', handleVideoEnded);
+        applyFrameSizeForSlide(currentVideo);
+
+        currentVideo.play().catch(err => {
+          console.log('Video autoplay failed:', err);
+        });
+      }
+
+      prevBtn?.addEventListener('click', () => {
         stopCurrentVideo();
         showSlide(currentIndex - 1);
       });
 
-      nextBtn.addEventListener('click', () => {
+      nextBtn?.addEventListener('click', () => {
         stopCurrentVideo();
         showSlide(currentIndex + 1);
       });
@@ -1101,55 +1258,68 @@
       carouselControllers.set(carousel.dataset.carousel, {
         showSlide,
         stopCurrentVideo,
+        showExternalVideo,
         getSlides: () => slides
       });
-    });
+      });
 
-    const liquidHandlerCarousel = document.querySelector('[data-carousel="liquid-handler"]');
-    const liquidHandlerController = carouselControllers.get('liquid-handler');
-    const liquidHandlerVideo = liquidHandlerCarousel?.querySelector('.liquid-handler-inline-video');
-    const liquidHandlerDescription = document.getElementById('liquid-handler-description');
-    const liquidHandlerDefaultDescription = liquidHandlerDescription?.textContent.trim() || '';
+      const liquidHandlerCarousel = document.querySelector('[data-carousel="liquid-handler"]');
+      const liquidHandlerController = carouselControllers.get('liquid-handler');
+      const liquidHandlerVideo = liquidHandlerCarousel?.querySelector('.liquid-handler-inline-video');
+      const liquidHandlerDescription = document.getElementById('liquid-handler-description');
+      const liquidHandlerDefaultDescription = liquidHandlerDescription?.innerHTML || '';
 
-    document.querySelectorAll('.video-open-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
+      document.querySelectorAll('.video-open-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (!liquidHandlerController || !liquidHandlerVideo) return;
+
+          const videoSrc = btn.dataset.videoSrc;
+          if (!videoSrc) return;
+
+          const descriptionText = btn.dataset.description?.trim() || btn.textContent?.trim() || '';
+          if (liquidHandlerDescription && descriptionText) {
+            liquidHandlerDescription.textContent = descriptionText;
+          }
+
+          liquidHandlerController.stopCurrentVideo();
+          liquidHandlerVideo.src = videoSrc;
+          liquidHandlerVideo.muted = true;
+          liquidHandlerVideo.volume = 0;
+
+          liquidHandlerController.showExternalVideo(liquidHandlerVideo);
+        });
+      });
+
+      const galleryButton = document.querySelector('.video-gallery-btn');
+      galleryButton?.addEventListener('click', () => {
         if (!liquidHandlerController || !liquidHandlerVideo) return;
 
-        const videoSrc = btn.dataset.videoSrc;
-        if (!videoSrc) return;
-
-        const descriptionText = btn.dataset.description?.trim() || btn.textContent?.trim() || '';
-        if (liquidHandlerDescription && descriptionText) {
-          liquidHandlerDescription.textContent = descriptionText;
+        if (liquidHandlerDescription) {
+          liquidHandlerDescription.innerHTML = liquidHandlerDefaultDescription;
         }
 
         liquidHandlerController.stopCurrentVideo();
-        liquidHandlerVideo.src = videoSrc;
-        liquidHandlerVideo.muted = true;
-        liquidHandlerVideo.volume = 0;
-
-        const slides = liquidHandlerController.getSlides();
-        const videoIndex = slides.indexOf(liquidHandlerVideo);
-        if (videoIndex !== -1) {
-          liquidHandlerController.showSlide(videoIndex);
-        }
+        liquidHandlerVideo.pause();
+        liquidHandlerVideo.removeAttribute('src');
+        liquidHandlerVideo.load();
+        liquidHandlerController.showSlide(0);
       });
-    });
 
-    const galleryButton = document.querySelector('.video-gallery-btn');
-    galleryButton?.addEventListener('click', () => {
-      if (!liquidHandlerController || !liquidHandlerVideo) return;
+      const oligoLimsRepoButton = document.querySelector('.oligo-lims-private-repo-btn');
+      oligoLimsRepoButton?.addEventListener('click', () => {
+        oligoLimsRepoButton.textContent = 'Repo Private';
+      });
 
-      if (liquidHandlerDescription) {
-        liquidHandlerDescription.textContent = liquidHandlerDefaultDescription;
-      }
+      const oligoLimsController = carouselControllers.get('oligo-lims');
+      const oligoLimsGalleryButton = document.querySelector('.oligo-lims-gallery-btn');
+      oligoLimsGalleryButton?.addEventListener('click', () => {
+        if (!oligoLimsController) return;
+        oligoLimsController.stopCurrentVideo();
+        oligoLimsController.showSlide(0);
+      });
+    }
 
-      liquidHandlerController.stopCurrentVideo();
-      liquidHandlerVideo.pause();
-      liquidHandlerVideo.removeAttribute('src');
-      liquidHandlerVideo.load();
-      liquidHandlerController.showSlide(0);
-    });
+    initializeCarousels();
   </script>
 </body>
 </html>
