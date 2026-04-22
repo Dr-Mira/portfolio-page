@@ -858,7 +858,8 @@
             and the pictures are taken with an Arducam 16MP USB camera with software-controlled focus.
           </p>
           <div class="project-links">
-            <a href="#" class="project-link">View Details →</a>
+            <a href="https://github.com/Dr-Mira/barcode-scanner" class="project-link project-link-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <button type="button" class="project-link project-link-secondary barcode-scanner-gallery-btn">Gallery</button>
           </div>
         </div>
       </div>
@@ -878,7 +879,7 @@
           </div>
         </div>
         <div class="project-content">
-          <h2>In-situ NMR Photoreactor</h2>
+          <h2>NMR Photoreactor</h2>
           <p class="project-description">
             A 3D-printed NMR photoreactor delivering uniform 360° light around the sample at ~−78 °C in
             isopropanol/dry-ice slurry. A 20 mL glass vial around the sample acts as both the optical window
@@ -886,7 +887,8 @@
             with a gentle dry N₂ purge to prevent condensation, contaminating LED -> sample optical path.
           </p>
           <div class="project-links">
-            <a href="#" class="project-link">View Details →</a>
+            <button type="button" class="project-link nmr-view-details-btn">View Details →</button>
+            <button type="button" class="project-link project-link-secondary nmr-gallery-btn">Gallery</button>
           </div>
         </div>
       </div>
@@ -914,7 +916,8 @@
             programmable on/off cycling in photostability studies.
           </p>
           <div class="project-links">
-            <a href="#" class="project-link">View Details →</a>
+            <button type="button" class="project-link uv-vis-view-details-btn">View Details →</button>
+            <button type="button" class="project-link project-link-secondary uv-vis-gallery-btn">Gallery</button>
           </div>
         </div>
       </div>
@@ -936,10 +939,15 @@
         <div class="project-content">
           <h2>Bio Photoreactor</h2>
           <p class="project-description">
-            Custom 3D-printed bio-photoreactor for transparent-bottom 96/384-well plates, with one half illuminated and the other half kept dark as on-plate controls. A swappable LED module (PC insert in an ASA chassis) supports quick wavelength changes, while five independently controlled LEDs, reflective lining, and a selected diffusion film (LGT188S2) deliver uniform plate irradiation. A custom two-axis LTR390 scanner was used to tune light balance, and thermal drift stayed minimal (&lt;0.2 °C over 120 min at full power).
+            A 3D-printed bio-photoreactor for transparent-bottom 96/384-well plates, with one half illuminated and
+            the other half kept dark as on-plate controls. A swappable LED module (PC insert in an ASA chassis) supports
+            quick wavelength changes, while five independently controlled LEDs, reflective lining, and a selected
+            diffusion film deliver uniform plate irradiation. A custom two-axis light scanner was developed and used
+            to tune light balance, and thermal drift stayed minimal (&lt;0.2 °C over 120 min at full LED power).
           </p>
           <div class="project-links">
-            <a href="#" class="project-link">View Details →</a>
+            <button type="button" class="project-link bio-view-details-btn">View Details →</button>
+            <button type="button" class="project-link project-link-secondary bio-gallery-btn">Gallery</button>
           </div>
         </div>
       </div>
@@ -961,13 +969,15 @@
         <div class="project-content">
           <h2>Plate Illumination Scanner</h2>
           <p class="project-description">
-            A two-axis robotic scanner equipped with a digital light sensor quantifies light distribution across the plate.
-            The scanner sequentially measures illumination of each well, while two synchronized Arduino boards optimize
-            individual diode power to maximize irradiance uniformity across the board. Eg. the robot tries to find a
-            minimal across setting of energy level of 5 diedes simoutneously - 5D problem.
+            A two-axis robotic scanner equipped with a digital light sensor quantifies the light distribution across the
+            plate. As the scanner sequentially measures the illumination of each well, two synchronized Arduino boards
+            optimize individual diode power to maximize irradiance uniformity. The robot solves a 5-dimensional
+            optimization problem by simultaneously fine-tuning the energy levels of five distinct diodes to find the
+            solution with maximum total irradiance and minimal energy spread.
           </p>
           <div class="project-links">
-            <a href="#" class="project-link">View Details →</a>
+            <button type="button" class="project-link plate-view-details-btn">View Details →</button>
+            <button type="button" class="project-link project-link-secondary plate-gallery-btn">Gallery</button>
           </div>
         </div>
       </div>
@@ -1219,7 +1229,6 @@
       const nextBtn = carousel.querySelector('.carousel-arrow.next');
       let currentIndex = 0;
       const carouselImages = carousel.querySelector('.carousel-images');
-      let autoAdvanceTimer = null;
       let currentVideo = null;
 
       function clearExternalVideoState() {
@@ -1303,24 +1312,7 @@
       }
 
       function handleVideoEnded() {
-        stopCurrentVideo();
-        showSlide(currentIndex + 1);
-      }
-
-      function getRandomInterval() {
-        // Random time between 25-35 seconds (25000-35000 ms)
-        return Math.floor(Math.random() * 10000) + 25000;
-      }
-
-      function scheduleNextAdvance() {
-        clearTimeout(autoAdvanceTimer);
-        autoAdvanceTimer = setTimeout(() => {
-          showSlide(currentIndex + 1);
-        }, getRandomInterval());
-      }
-
-      function stopAutoAdvance() {
-        clearTimeout(autoAdvanceTimer);
+        // Intentionally no automatic slide change on video end.
       }
 
       function showSlide(index) {
@@ -1351,17 +1343,10 @@
         if (currentSlide.tagName === 'VIDEO') {
           currentVideo = currentSlide;
           currentVideo.addEventListener('ended', handleVideoEnded);
-          // While video is playing, disable auto image switching.
-          stopAutoAdvance();
           // Play the video
           currentVideo.play().catch(err => {
             console.log('Video autoplay failed:', err);
-            // If autoplay fails, fall back to timer
-            scheduleNextAdvance();
           });
-        } else {
-          // For images, schedule next advance
-          scheduleNextAdvance();
         }
       }
 
@@ -1370,8 +1355,6 @@
 
         stopCurrentVideo();
         clearExternalVideoState();
-        stopAutoAdvance();
-
         slides.forEach(slide => slide.classList.remove('active'));
         dots.forEach(dot => dot.classList.remove('active'));
 
@@ -1400,25 +1383,6 @@
           stopCurrentVideo();
           showSlide(index);
         });
-      });
-
-      // Pause auto-advance when hovering over the carousel
-      carousel.addEventListener('mouseenter', () => {
-        stopAutoAdvance();
-        if (currentVideo) {
-          currentVideo.pause();
-        }
-      });
-
-      carousel.addEventListener('mouseleave', () => {
-        if (currentVideo) {
-          currentVideo.play().catch(() => {
-            // If play fails, just advance
-            showSlide(currentIndex + 1);
-          });
-        } else {
-          scheduleNextAdvance();
-        }
       });
 
       // Start with the first slide
@@ -1520,6 +1484,55 @@
         if (!oligoLimsController) return;
         oligoLimsController.stopCurrentVideo();
         oligoLimsController.showSlide(0);
+      });
+
+      const barcodeScannerController = carouselControllers.get('barcode-scanner');
+      const barcodeScannerGalleryButton = document.querySelector('.barcode-scanner-gallery-btn');
+      barcodeScannerGalleryButton?.addEventListener('click', () => {
+        if (!barcodeScannerController) return;
+        barcodeScannerController.stopCurrentVideo();
+        barcodeScannerController.showSlide(0);
+      });
+
+      const nmrController = carouselControllers.get('nmr-photoreator');
+      const nmrGalleryButton = document.querySelector('.nmr-gallery-btn');
+      nmrGalleryButton?.addEventListener('click', () => {
+        if (!nmrController) return;
+        nmrController.stopCurrentVideo();
+        nmrController.showSlide(0);
+      });
+
+      const uvVisController = carouselControllers.get('uv-vis-photoreator');
+      const uvVisGalleryButton = document.querySelector('.uv-vis-gallery-btn');
+      uvVisGalleryButton?.addEventListener('click', () => {
+        if (!uvVisController) return;
+        uvVisController.stopCurrentVideo();
+        uvVisController.showSlide(0);
+      });
+
+      const bioController = carouselControllers.get('bio-photoreactor');
+      const bioGalleryButton = document.querySelector('.bio-gallery-btn');
+      bioGalleryButton?.addEventListener('click', () => {
+        if (!bioController) return;
+        bioController.stopCurrentVideo();
+        bioController.showSlide(0);
+      });
+
+      const plateController = carouselControllers.get('plate-illumination-scanner');
+      const plateGalleryButton = document.querySelector('.plate-gallery-btn');
+      plateGalleryButton?.addEventListener('click', () => {
+        if (!plateController) return;
+        plateController.stopCurrentVideo();
+        plateController.showSlide(0);
+      });
+
+      const manuscriptButtons = document.querySelectorAll('.nmr-view-details-btn, .uv-vis-view-details-btn, .bio-view-details-btn, .plate-view-details-btn');
+      manuscriptButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          button.textContent = 'Manuscript in preparation';
+          button.classList.add('project-link-secondary', 'project-link-disabled');
+          button.disabled = true;
+        });
       });
     }
 
