@@ -1301,6 +1301,19 @@
         return;
       }
 
+      let autoAdvanceTimer = null;
+
+      function stopAutoAdvance() {
+        if (autoAdvanceTimer) {
+          clearTimeout(autoAdvanceTimer);
+          autoAdvanceTimer = null;
+        }
+      }
+
+      function scheduleNextAdvance() {
+        // Auto-advance intentionally disabled.
+      }
+
       function stopCurrentVideo() {
         if (currentVideo) {
           currentVideo.pause();
