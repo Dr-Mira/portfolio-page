@@ -1107,7 +1107,11 @@
 
         if (!folder || !track) continue;
 
+        const preservedInlineVideo = track.querySelector('.liquid-handler-inline-video');
         track.innerHTML = '';
+        if (preservedInlineVideo) {
+          track.appendChild(preservedInlineVideo);
+        }
 
         let imageIndex = 1;
         while (true) {
