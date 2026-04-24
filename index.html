@@ -360,8 +360,9 @@
     }
 
     .carousel-images {
+      --frame-max-height: 672px;
       position: relative;
-      height: 672px;
+      height: var(--frame-max-height);
       width: auto;
       max-width: 100%;
       margin: 0 auto;
@@ -1121,7 +1122,6 @@
       <div class="hero-links">
         <a href="https://www.github.com/Dr-Mira" target="_blank" class="hero-link"><span>💻</span> GitHub</a>
         <a href="https://www.linkedin.com/in/Dr-Mira" target="_blank" class="hero-link"><span>💼</span> LinkedIn</a>
-        <a href="mailto:dr.mirakaspar@gmail.com" class="hero-link"><span>📧</span> Email</a>
       </div>
         </a>
       </div>
@@ -1414,17 +1414,23 @@
       }
 
       function applyFrameSizeForSlide(slide) {
+        const maxFrameHeight = parseFloat(
+          getComputedStyle(carouselImages).getPropertyValue('--frame-max-height')
+        ) || 672;
         const ratio = getSlideAspectRatio(slide);
+
         if (!ratio) {
           carouselImages.style.width = '100%';
+          carouselImages.style.height = `${maxFrameHeight}px`;
           return;
         }
 
-        const frameHeight = carouselImages.clientHeight;
-        const desiredWidth = frameHeight * ratio;
         const maxAllowedWidth = carouselImages.parentElement.clientWidth;
-        const finalWidth = Math.min(desiredWidth, maxAllowedWidth);
-        carouselImages.style.width = `${finalWidth}px`;
+        const constrainedHeight = Math.min(maxFrameHeight, maxAllowedWidth / ratio);
+        const constrainedWidth = constrainedHeight * ratio;
+
+        carouselImages.style.width = `${constrainedWidth}px`;
+        carouselImages.style.height = `${constrainedHeight}px`;
       }
 
       function extractCarouselNumber(slide) {
