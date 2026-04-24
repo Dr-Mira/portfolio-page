@@ -201,9 +201,28 @@
       animation: bounce 2s infinite;
     }
 
+    .projects-scroll-indicator {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      animation: flash 1.4s ease-in-out infinite;
+    }
+
+    .top-scroll-indicator {
+      margin-top: 78px;
+      padding: 0.75rem 2rem 0.25rem;
+      text-align: center;
+    }
+
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(8px); }
+    }
+
+    @keyframes flash {
+      0%, 100% { opacity: 0.35; }
+      50% { opacity: 1; }
     }
 
     /* Projects Section - Vertical Scroll */
@@ -685,6 +704,16 @@
         max-width: 100%;
         margin: 0 auto;
       }
+
+      .project-transition-indicator {
+        grid-template-columns: 1fr;
+        gap: 0;
+        margin: 0.5rem auto 1rem;
+      }
+
+      .project-transition-indicator .projects-scroll-indicator {
+        justify-self: center;
+      }
     }
 
     @media (max-width: 768px) {
@@ -742,21 +771,12 @@
     </div>
   </nav>
 
-  <!-- Minimal Hero -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Lab Automation & Custom Instruments</h1>
-      <p class="hero-tagline">Hardware and software for accelerating chemical research</p>
-
-      <div class="scroll-indicator">
-        <span>↓ Scroll to explore</span>
-      </div>
-    </div>
-  </section>
+  <div class="top-scroll-indicator" aria-hidden="true">
+    <div class="projects-scroll-indicator">↓ Scroll to explore</div>
+  </div>
 
   <!-- Projects - Vertical Scroll Layout -->
   <section class="projects" id="projects">
-    
     <!-- Project 1: Liquid Handler -->
     <article class="project-section fade-in">
       <div class="project-container">
@@ -775,7 +795,7 @@
         <div class="project-content">
           <h2>Robotic Liquid Handler</h2>
           <p class="project-description" id="liquid-handler-description">
-Built on a refurbished 3D printer platform, the system incorporates custom-designed, 3D-printed racks, a base, a pipette
+            Built on a refurbished 3D printer platform, the system incorporates custom-designed, 3D-printed racks, a base, a pipette
             holder, and calibration tabs. Liquid handling is performed using a commercial analytical 1 mL pipette.
             The machine achieves sub-0.1 mm positional accuracy, and testing of the fully assembled system demonstrated
             liquid handling accuracy and precision in accordance with ISO 8655<br><br>
@@ -819,10 +839,11 @@ Built on a refurbished 3D printer platform, the system incorporates custom-desig
         <div class="project-content">
           <h2>Oligonucleotide LIMS</h2>
           <p class="project-description">
-            Full-stack LIMS focused on day-to-day lab operations: barcode scan lookup, batch import/validation,
-            inventory search and status tracking, automatic oligo .mol file creation, calculation of molar/monoisotopic mass,
-            PDF/CSV export, snapshot backup/restore, complete audit capture, and file storage of synthesis protocols and
-            oligo analytical data.<br><br>
+            Built out opf necessity to track hundreds of barcoded vials. The full-stack laboratory inventory management
+            system for day-to-day lab operations, barcode scan lookup, batch import/validation, inventory search and
+            status tracking, automatic oligo .mol file creation, calculation of molar/monoisotopic mass, PDF/CSV export,
+            snapshot backup/restore, complete audit capture, and file storage of synthesis protocols and oligo analytical
+            data.<br><br>
 
             Stack: Python FastAPI backend with a Jinja + JavaScript frontend. Data is stored in a JSON tree: each oligo
             lives in a folder keyed by a generated 6-character base62 hash, and audit trails are decoupled into per-entity
@@ -830,7 +851,6 @@ Built on a refurbished 3D printer platform, the system incorporates custom-desig
           </p>
           <div class="project-links">
             <button type="button" class="project-link project-link-secondary project-link-disabled oligo-lims-private-repo-btn">GitHub</button>
-            <button type="button" class="project-link project-link-secondary oligo-lims-gallery-btn">Gallery</button>
           </div>
         </div>
       </div>
@@ -859,7 +879,6 @@ Built on a refurbished 3D printer platform, the system incorporates custom-desig
           </p>
           <div class="project-links">
             <a href="https://github.com/Dr-Mira/barcode-scanner" class="project-link project-link-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <button type="button" class="project-link project-link-secondary barcode-scanner-gallery-btn">Gallery</button>
           </div>
         </div>
       </div>
@@ -888,7 +907,6 @@ Built on a refurbished 3D printer platform, the system incorporates custom-desig
           </p>
           <div class="project-links">
             <button type="button" class="project-link nmr-view-details-btn">View Details →</button>
-            <button type="button" class="project-link project-link-secondary nmr-gallery-btn">Gallery</button>
           </div>
         </div>
       </div>
@@ -917,7 +935,6 @@ Built on a refurbished 3D printer platform, the system incorporates custom-desig
           </p>
           <div class="project-links">
             <button type="button" class="project-link uv-vis-view-details-btn">View Details →</button>
-            <button type="button" class="project-link project-link-secondary uv-vis-gallery-btn">Gallery</button>
           </div>
         </div>
       </div>
@@ -947,7 +964,6 @@ Built on a refurbished 3D printer platform, the system incorporates custom-desig
           </p>
           <div class="project-links">
             <button type="button" class="project-link bio-view-details-btn">View Details →</button>
-            <button type="button" class="project-link project-link-secondary bio-gallery-btn">Gallery</button>
           </div>
         </div>
       </div>
@@ -977,7 +993,6 @@ Built on a refurbished 3D printer platform, the system incorporates custom-desig
           </p>
           <div class="project-links">
             <button type="button" class="project-link plate-view-details-btn">View Details →</button>
-            <button type="button" class="project-link project-link-secondary plate-gallery-btn">Gallery</button>
           </div>
         </div>
       </div>
@@ -999,12 +1014,31 @@ Built on a refurbished 3D printer platform, the system incorporates custom-desig
         <div class="project-content">
           <h2>Photochemistry Analysis Tools</h2>
           <p class="project-description">
-            Python-based toolkit for analyzing photochemical reaction data, processing UV-Vis 
-            spectra, and calculating quantum yields. Integrates with custom instrumentation 
-            for automated data processing and visualization.
+            Scripts were developed as a need to analyze data from Agilent Cary 8454 UV–Vis spectrometer. Cary outputs
+            data as a raw .txt 3D-array. Scripts were written with the mind of exporting figures in Journal of American
+            Chemical Society format.:<br><br>
+
+            <strong>Extinction Coefficient Calculator.</strong> A spectral unmixing utility that derives pure-state molar
+            extinction spectra for E and Z isomers from an initial spectrum, a photostationary-state spectrum, and known
+            PSS composition. Using Beer–Lambert conversion, linear algebra, and export cleanup, it generates the
+            cis and trans datasets needed for downstream kinetic deconvolution and quantum-yield calculations.<br><br>
+
+            <strong>Half-Life Calculator.</strong> A three-panel UV–Vis kinetics interface for extracting thermal
+            relaxation rate constants and half-lives from time-resolved absorbance data. It links wavelength-specific
+            kinetic traces, spectral snapshots or spectral evolution views, and first or second-order exponential curve
+            fitting.<br><br>
+
+            <strong>Photostability Analyzer.</strong> An interactive absorbance-cycle analysis app for light/dark
+            irradiation experiments. It finds local maxima and minima in the raw trace, then converts them into a
+            cycle-resolved stability plot showing fatigue, bleaching, or incomplete recovery across
+            repeated switching cycles, with export-ready figures.<br><br>
+
+            <strong>Quantum Yield Calculator.</strong> Tool for estimating photoisomerization
+            quantum yields under total-absorption conditions (A > 2 at the irradiation wavelength).
+
           </p>
           <div class="project-links">
-            <a href="#" class="project-link">View Details →</a>
+            <button type="button" class="project-link photochem-view-details-btn">View Details →</button>
           </div>
         </div>
       </div>
@@ -1495,55 +1529,7 @@ Built on a refurbished 3D printer platform, the system incorporates custom-desig
         oligoLimsRepoButton.textContent = 'Repo Private';
       });
 
-      const oligoLimsController = carouselControllers.get('oligo-lims');
-      const oligoLimsGalleryButton = document.querySelector('.oligo-lims-gallery-btn');
-      oligoLimsGalleryButton?.addEventListener('click', () => {
-        if (!oligoLimsController) return;
-        oligoLimsController.stopCurrentVideo();
-        oligoLimsController.showSlide(0);
-      });
-
-      const barcodeScannerController = carouselControllers.get('barcode-scanner');
-      const barcodeScannerGalleryButton = document.querySelector('.barcode-scanner-gallery-btn');
-      barcodeScannerGalleryButton?.addEventListener('click', () => {
-        if (!barcodeScannerController) return;
-        barcodeScannerController.stopCurrentVideo();
-        barcodeScannerController.showSlide(0);
-      });
-
-      const nmrController = carouselControllers.get('nmr-photoreator');
-      const nmrGalleryButton = document.querySelector('.nmr-gallery-btn');
-      nmrGalleryButton?.addEventListener('click', () => {
-        if (!nmrController) return;
-        nmrController.stopCurrentVideo();
-        nmrController.showSlide(0);
-      });
-
-      const uvVisController = carouselControllers.get('uv-vis-photoreator');
-      const uvVisGalleryButton = document.querySelector('.uv-vis-gallery-btn');
-      uvVisGalleryButton?.addEventListener('click', () => {
-        if (!uvVisController) return;
-        uvVisController.stopCurrentVideo();
-        uvVisController.showSlide(0);
-      });
-
-      const bioController = carouselControllers.get('bio-photoreactor');
-      const bioGalleryButton = document.querySelector('.bio-gallery-btn');
-      bioGalleryButton?.addEventListener('click', () => {
-        if (!bioController) return;
-        bioController.stopCurrentVideo();
-        bioController.showSlide(0);
-      });
-
-      const plateController = carouselControllers.get('plate-illumination-scanner');
-      const plateGalleryButton = document.querySelector('.plate-gallery-btn');
-      plateGalleryButton?.addEventListener('click', () => {
-        if (!plateController) return;
-        plateController.stopCurrentVideo();
-        plateController.showSlide(0);
-      });
-
-      const manuscriptButtons = document.querySelectorAll('.nmr-view-details-btn, .uv-vis-view-details-btn, .bio-view-details-btn, .plate-view-details-btn');
+      const manuscriptButtons = document.querySelectorAll('.nmr-view-details-btn, .uv-vis-view-details-btn, .bio-view-details-btn, .plate-view-details-btn, .photochem-view-details-btn');
       manuscriptButtons.forEach((button) => {
         button.addEventListener('click', () => {
           button.textContent = 'Manuscript in preparation';
