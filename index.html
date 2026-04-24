@@ -145,6 +145,64 @@
       color: var(--primary);
     }
 
+    .scroll-nav {
+      position: fixed;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: clamp(180px, 48vh, 360px);
+      z-index: 95;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scroll-nav-line {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 1px;
+      height: 100%;
+      background: var(--border);
+      opacity: 0.9;
+    }
+
+    .scroll-nav-dots {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .scroll-nav-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: var(--text-light);
+      opacity: 0.45;
+      cursor: pointer;
+      transition: transform 0.25s ease, opacity 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .scroll-nav-dot:hover {
+      opacity: 0.9;
+      background: var(--text-muted);
+      transform: scale(1.2);
+    }
+
+    .scroll-nav-dot.active {
+      opacity: 1;
+      background: var(--primary);
+      border-color: var(--surface);
+      transform: scale(1.45);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 22%, transparent);
+    }
+
     /* Hero Section - Minimal */
     .hero {
       min-height: 60vh;
@@ -716,6 +774,12 @@
       }
     }
 
+    @media (max-width: 1024px) {
+      .scroll-nav {
+        display: none;
+      }
+    }
+
     @media (max-width: 768px) {
       .nav-links a {
         display: none;
@@ -770,6 +834,11 @@
       </div>
     </div>
   </nav>
+
+  <aside class="scroll-nav" aria-label="Project progress navigation">
+    <div class="scroll-nav-line" aria-hidden="true"></div>
+    <div class="scroll-nav-dots" id="scroll-nav-dots"></div>
+  </aside>
 
   <div class="top-scroll-indicator" aria-hidden="true">
     <div class="projects-scroll-indicator">↓ Scroll to explore</div>
@@ -1120,6 +1189,57 @@
         }
       });
     });
+
+    function initializeProjectScrollNav() {
+      const sections = Array.from(document.querySelectorAll('.project-section'));
+      const dotsContainer = document.getElementById('scroll-nav-dots');
+
+      if (!sections.length || !dotsContainer) return;
+
+      dotsContainer.innerHTML = '';
+
+      sections.forEach((section, index) => {
+        if (!section.id) {
+          section.id = `project-${index + 1}`;
+        }
+
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'scroll-nav-dot';
+        dot.setAttribute('aria-label', `Go to project ${index + 1}`);
+        dot.dataset.target = section.id;
+        dot.addEventListener('click', () => {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        dotsContainer.appendChild(dot);
+      });
+
+      const dots = Array.from(dotsContainer.querySelectorAll('.scroll-nav-dot'));
+
+      function setActive(index) {
+        dots.forEach((dot, dotIndex) => {
+          dot.classList.toggle('active', dotIndex === index);
+        });
+      }
+
+      const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const index = sections.indexOf(entry.target);
+          if (index !== -1) {
+            setActive(index);
+          }
+        });
+      }, {
+        threshold: 0.45,
+        rootMargin: '-20% 0px -20% 0px'
+      });
+
+      sections.forEach((section) => sectionObserver.observe(section));
+      setActive(0);
+    }
+
+    initializeProjectScrollNav();
 
     // Carousel functionality
     function canLoadImage(src) {
