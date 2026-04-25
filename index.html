@@ -870,15 +870,15 @@
           <p class="project-description" id="liquid-handler-description">
             Built on a refurbished 3D printer platform, the system incorporates custom-designed, 3D-printed racks, a base, a pipette
             holder, and calibration tabs. Liquid handling is performed using a commercial analytical 1 mL pipette.
-            The machine achieves sub-0.1 mm positional accuracy, and testing of the fully assembled system demonstrated
-            liquid handling accuracy and precision in accordance with ISO 8655<br><br>
+            The machine achieves sub-0.1 mm repeatability, and testing of the fully assembled system was evaluated
+            against ISO 8655 acceptance criteria for liquid-handling accuracy and precision.<br><br>
 
-            Supports up to 3×96 well plates, Eppis, 15/50 mL Falcon tubes, and 4 mL vials. Includes liquid-air eject
+            Supports up to 3×96 well plates, Eppendorf tubes, 15/50 mL Falcon tubes, and 4 mL vials. Includes liquid-air eject
             (for remaining liquid), reliable tip pick/drop, aspirate–dispense mixing, and volatile-friendly transport
             offsets for solvents such as ACN and MeOH.<br><br>
 
             Motion and liquid routines are driven by a Python control script with a custom user interface that sends G-code over serial.
-            It also manages calibration/config values from local json, giving a practical balance of readability and easy tuning.
+            It also manages calibration/config values from local JSON, giving a practical balance of readability and easy tuning.
           </p>
           <div class="project-links">
             <a href="https://github.com/Dr-Mira/liquid-handler" class="project-link project-link-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -888,7 +888,7 @@
             <button type="button" class="project-link video-open-btn" data-video-src="assets/liquid-handler/liquid_handler_aliquot.mp4" data-video-name="liquid_handler_aliquot.mp4"
                     data-description="Equally distributes defined volume into defined containers.">Aliquoting</button>
             <button type="button" class="project-link video-open-btn" data-video-src="assets/liquid-handler/liquid_handler_matrix.mp4" data-video-name="liquid_handler_matrix.mp4"
-                    data-description="Multi-well dispense paths for high-throughput condition screening across plate coordinates. Demo is colorized for visualization.">Matrix Pattern</button>
+                    data-description="Multi-well dispense paths for high-throughput condition screening across plate coordinates. Demo footage is color-tinted for clarity.">Matrix Pattern</button>
             <button type="button" class="project-link video-open-btn" data-video-src="assets/liquid-handler/liquid_handler_tips.mp4" data-video-name="liquid_handler_tips.mp4"
                     data-description="Robustness test of pipette management, pick/eject all tips in random order.">Tip Handling</button>
           </div>
@@ -912,8 +912,8 @@
         <div class="project-content">
           <h2>Oligonucleotide LIMS</h2>
           <p class="project-description">
-            Built out opf necessity to track hundreds of barcoded vials. The full-stack laboratory inventory management
-            system for day-to-day lab operations, barcode scan lookup, batch import/validation, inventory search and
+            Built out of necessity to track hundreds of barcoded vials. A full-stack Laboratory Information Management
+            system for day-to-day lab operations: barcode scan lookup, batch import/validation, inventory search and
             status tracking, automatic oligo .mol file creation, calculation of molar/monoisotopic mass, PDF/CSV export,
             snapshot backup/restore, complete audit capture, and file storage of synthesis protocols and oligo analytical
             data.<br><br>
@@ -945,10 +945,10 @@
         <div class="project-content">
           <h2>2D Barcode Scanner</h2>
           <p class="project-description">
-            Custom scanner system for vials with 2D ECC200 barcode. Integrates with LIMS for
-            automated sample identification and workflow management, eliminating manual data entry 
-            and reducing tracking errors. Box is 3D printed, illumination is from internally chamfered led-strip,
-            and the pictures are taken with an Arducam 16MP USB camera with software-controlled focus.
+            Custom scanner system for vials with 2D ECC200 barcodes. Integrates with the LIMS for
+            automated sample identification and workflow management, eliminating manual data entry
+            and reducing tracking errors. The enclosure is 3D printed, illumination comes from an internally chamfered LED strip,
+            and images are captured with an Arducam 16 MP USB camera with software-controlled focus.
           </p>
           <div class="project-links">
             <a href="https://github.com/Dr-Mira/barcode-scanner" class="project-link project-link-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -957,7 +957,7 @@
       </div>
     </article>
 
-    <!-- Project 5: NMR Photoreactor -->
+    <!-- Project 4: NMR Photoreactor -->
     <article class="project-section fade-in">
       <div class="project-container">
         <div class="project-visual">
@@ -973,10 +973,10 @@
         <div class="project-content">
           <h2>NMR Photoreactor</h2>
           <p class="project-description">
-            A 3D-printed NMR photoreactor delivering uniform 360° light around the sample at ~−78 °C in
+            A 3D-printed NMR photoreactor delivering uniform 360° light around the sample at ~−78 °C in an
             isopropanol/dry-ice slurry. A 20 mL glass vial around the sample acts as both the optical window
             and the cooling reservoir. Light comes from three 2 W LEDs on heat sinks, powered by a constant-current DC supply,
-            with a gentle dry N₂ purge to prevent condensation, contaminating LED -> sample optical path.
+            with a gentle dry N₂ purge to prevent condensation from contaminating the LED → sample optical path.
           </p>
           <div class="project-links">
             <button type="button" class="project-link nmr-view-details-btn">View Details →</button>
@@ -985,7 +985,7 @@
       </div>
     </article>
 
-    <!-- Project 6: UV-Vis Photoreactor -->
+    <!-- Project 5: UV-Vis Photoreactor -->
     <article class="project-section fade-in">
       <div class="project-container">
         <div class="project-visual">
@@ -1013,7 +1013,7 @@
       </div>
     </article>
 
-    <!-- Project 7: Bio Photoreactor -->
+    <!-- Project 6: Bio Photoreactor -->
     <article class="project-section fade-in">
       <div class="project-container">
         <div class="project-visual">
@@ -1042,7 +1042,7 @@
       </div>
     </article>
 
-    <!-- Project 8: Plate Illumination Scanner -->
+    <!-- Project 7: Plate Illumination Scanner -->
     <article class="project-section fade-in">
       <div class="project-container">
         <div class="project-visual">
@@ -1060,9 +1060,8 @@
           <p class="project-description">
             A two-axis robotic scanner equipped with a digital light sensor quantifies the light distribution across the
             plate. As the scanner sequentially measures the illumination of each well, two synchronized Arduino boards
-            optimize individual diode power to maximize irradiance uniformity. The robot solves a 5-dimensional
-            optimization problem by simultaneously fine-tuning the energy levels of five distinct diodes to find the
-            solution with maximum total irradiance and minimal energy spread.
+            drive the LEDs while a host script solves a 5-dimensional optimization problem, simultaneously fine-tuning
+            the power of five distinct diodes to find the solution with maximum total irradiance and minimal energy spread.
           </p>
           <div class="project-links">
             <button type="button" class="project-link plate-view-details-btn">View Details →</button>
@@ -1071,7 +1070,7 @@
       </div>
     </article>
 
-    <!-- Project 9: Photochemistry Tools -->
+    <!-- Project 8: Photochemistry Tools -->
     <article class="project-section fade-in">
       <div class="project-container">
         <div class="project-visual">
@@ -1087,9 +1086,9 @@
         <div class="project-content">
           <h2>Photochemistry Analysis Tools</h2>
           <p class="project-description">
-            Scripts were developed as a need to analyze data from Agilent Cary 8454 UV–Vis spectrometer. Cary outputs
-            data as a raw .txt 3D-array. Scripts were written with the mind of exporting figures in Journal of American
-            Chemical Society format.:<br><br>
+            Scripts were developed out of a need to analyze data from an Agilent 8454 diode-array UV–Vis spectrometer,
+            which outputs data as a raw .txt 3D array. Scripts were written with the goal of exporting figures in
+            Journal of the American Chemical Society format:<br><br>
 
             <strong>Extinction Coefficient Calculator.</strong> A spectral unmixing utility that derives pure-state molar
             extinction spectra for E and Z isomers from an initial spectrum, a photostationary-state spectrum, and known
@@ -1123,16 +1122,14 @@
   <section class="contact" id="contact">
     <div class="contact-content fade-in">
       <div class="hero-links">
-        <a href="https://www.github.com/Dr-Mira" target="_blank" class="hero-link"><span>💻</span> GitHub</a>
-        <a href="https://www.linkedin.com/in/Dr-Mira" target="_blank" class="hero-link"><span>💼</span> LinkedIn</a>
-      </div>
-        </a>
+        <a href="https://www.github.com/Dr-Mira" target="_blank" rel="noopener noreferrer" class="hero-link"><span>💻</span> GitHub</a>
+        <a href="https://www.linkedin.com/in/Dr-Mira" target="_blank" rel="noopener noreferrer" class="hero-link"><span>💼</span> LinkedIn</a>
       </div>
     </div>
   </section>
 
   <footer>
-    <p>© 2025 Miroslav Kašpar</p>
+    <p>© 2026 Miroslav Kašpar</p>
   </footer>
 
   <div class="gallery-lightbox" id="gallery-lightbox" aria-hidden="true">
