@@ -686,6 +686,75 @@
       box-shadow: var(--shadow-md);
     }
 
+    /* Publications Section */
+    .publications {
+      padding: 5rem 2rem;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+
+    .publications-content {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .publications h2 {
+      font-size: clamp(1.7rem, 2.8vw, 2.25rem);
+      margin-bottom: 1.75rem;
+      letter-spacing: -0.01em;
+    }
+
+    .publication-list {
+      list-style: none;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .publication-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+      background: var(--bg);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .publication-item:hover {
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .publication-title {
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 500;
+      line-height: 1.45;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.35rem;
+    }
+
+    .publication-title:hover {
+      color: var(--primary);
+    }
+
+    .publication-title::after {
+      content: "↗";
+      font-size: 0.85rem;
+      color: var(--text-light);
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .publication-title:hover::after {
+      color: var(--primary);
+      transform: translate(1px, -1px);
+    }
+
+    .publication-meta {
+      margin-top: 0.42rem;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
     /* Contact Section */
     .contact {
       padding: 6rem 2rem;
@@ -834,6 +903,7 @@
       <a href="#" class="nav-brand">Míra</a>
       <div class="nav-links">
         <a href="#projects">Projects</a>
+        <a href="#publications">Publications</a>
         <a href="#contact">Contact</a>
         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
           <span id="theme-icon">🌙</span>
@@ -1119,6 +1189,31 @@
       </div>
     </article>
 
+  </section>
+
+  <!-- Publications -->
+  <section class="publications" id="publications">
+    <div class="publications-content fade-in">
+      <h2>Publications</h2>
+      <ul class="publication-list">
+        <li class="publication-item">
+          <a class="publication-title" href="https://pubs.acs.org/doi/abs/10.1021/acs.joc.2c00877" target="_blank" rel="noopener noreferrer">Selectivity of Oxidizing Agents toward Axial and Equatorial Hydroxyl Groups</a>
+          <p class="publication-meta">ACS · 2022</p>
+        </li>
+        <li class="publication-item">
+          <a class="publication-title" href="https://www.frontiersin.org/journals/pharmacology/articles/10.3389/fphar.2021.713149/full" target="_blank" rel="noopener noreferrer">(E)-7-Ethylidene-lithocholic Acid (7-ELCA) Is a Potent Dual Farnesoid X Receptor (FXR) Antagonist and GPBAR1 Agonist Inhibiting FXR-Induced Gene Expression in Hepatocytes and Stimulating Glucagon-like Peptide-1 Secretion From Enteroendocrine Cells</a>
+          <p class="publication-meta">Frontiers · 2021</p>
+        </li>
+        <li class="publication-item">
+          <a class="publication-title" href="https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10.1002/cmdc.202200556" target="_blank" rel="noopener noreferrer">When Two Become One: Conformational Changes in FXR/RXR Heterodimers Bound to Steroidal Antagonists</a>
+          <p class="publication-meta">Wiley · 2023</p>
+        </li>
+        <li class="publication-item">
+          <a class="publication-title" href="https://www.sciencedirect.com/science/article/abs/pii/S0960076020302272" target="_blank" rel="noopener noreferrer">3β-Isoobeticholic Acid Efficiently Activates the Farnesoid X Receptor (FXR) Due to Its Epimerization to 3α-Epimer by Hepatic Metabolism</a>
+          <p class="publication-meta">Elsevier · 2020</p>
+        </li>
+      </ul>
+    </div>
   </section>
 
   <!-- Contact -->
