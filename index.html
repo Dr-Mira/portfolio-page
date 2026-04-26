@@ -4,6 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects — Miroslav Kašpar</title>
+
+  <!-- Umami Analytics Configuration -->
+  <script>
+    window.PORTFOLIO_ANALYTICS_CONFIG = {
+      // Replace these values with your Umami instance details.
+      // Example script URL: "https://cloud.umami.is/script.js" or "https://analytics.yourdomain.com/script.js"
+      umamiScriptUrl: 'https://cloud.umami.is/script.js',
+      websiteId: 'REPLACE_WITH_UMAMI_WEBSITE_ID'
+    };
+  </script>
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -973,7 +983,7 @@
         <div class="project-content">
           <h2>NMR Photoreactor</h2>
           <p class="project-description">
-            A 3D-printed NMR photoreactor delivering uniform 360° light around the sample at ~−78 °C in an
+            A 3D-printed NMR photoreactor delivering uniform 360° light around the sample at ~−78 °C in
             isopropanol/dry-ice slurry. A 20 mL glass vial around the sample acts as both the optical window
             and the cooling reservoir. Light comes from three 2 W LEDs on heat sinks, powered by a constant-current DC supply,
             with a gentle dry N₂ purge to prevent condensation from contaminating the LED → sample optical path.
@@ -1122,8 +1132,8 @@
   <section class="contact" id="contact">
     <div class="contact-content fade-in">
       <div class="hero-links">
-        <a href="https://www.github.com/Dr-Mira" target="_blank" rel="noopener noreferrer" class="hero-link"><span>💻</span> GitHub</a>
-        <a href="https://www.linkedin.com/in/Dr-Mira" target="_blank" rel="noopener noreferrer" class="hero-link"><span>💼</span> LinkedIn</a>
+        <a href="https://www.github.com/Dr-Mira" target="_blank" rel="noopener noreferrer" class="hero-link" data-umami-event="contact_github_click"><span>💻</span> GitHub</a>
+        <a href="https://www.linkedin.com/in/Dr-Mira" target="_blank" rel="noopener noreferrer" class="hero-link" data-umami-event="contact_linkedin_click"><span>💼</span> LinkedIn</a>
       </div>
     </div>
   </section>
@@ -1140,6 +1150,101 @@
   </div>
 
   <script>
+    // Analytics
+    function initializeUmami() {
+      const config = window.PORTFOLIO_ANALYTICS_CONFIG || {};
+      const scriptUrl = config.umamiScriptUrl;
+      const websiteId = config.websiteId;
+
+      if (!scriptUrl || !websiteId || websiteId === '0d2a1d4d-c590-4094-850c-6bae8c17b0d3') {
+        return;
+      }
+
+      if (document.querySelector('script[data-website-id]')) {
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.defer = true;
+      script.src = scriptUrl;
+      script.setAttribute('data-website-id', websiteId);
+      document.head.appendChild(script);
+    }
+
+    function getUtmParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        utm_source: params.get('utm_source') || null,
+        utm_medium: params.get('utm_medium') || null,
+        utm_campaign: params.get('utm_campaign') || null,
+        utm_content: params.get('utm_content') || null,
+        utm_term: params.get('utm_term') || null
+      };
+    }
+
+    function sanitizeText(value) {
+      return (value || '').replace(/\s+/g, ' ').trim();
+    }
+
+    function getElementIdentifier(element) {
+      if (!element) return 'unknown';
+      if (element.dataset?.umamiEvent) return element.dataset.umamiEvent;
+      if (element.id) return `id:${element.id}`;
+
+      const className = typeof element.className === 'string' ? sanitizeText(element.className) : '';
+      if (className) return `class:${className}`;
+
+      const aria = sanitizeText(element.getAttribute('aria-label') || '');
+      if (aria) return `aria:${aria}`;
+
+      const text = sanitizeText(element.textContent || '');
+      if (text) return `text:${text.slice(0, 80)}`;
+
+      return element.tagName ? element.tagName.toLowerCase() : 'unknown';
+    }
+
+    function trackEvent(eventName, payload) {
+      if (!window.umami || typeof window.umami.track !== 'function') {
+        return;
+      }
+      window.umami.track(eventName, payload);
+    }
+
+    function initializeButtonTracking() {
+      document.addEventListener('click', (event) => {
+        const clickable = event.target.closest('button, a');
+        if (!clickable) return;
+
+        const utm = getUtmParams();
+        const referrer = document.referrer || null;
+        const referrerHostname = referrer ? (() => {
+          try {
+            return new URL(referrer).hostname;
+          } catch (_) {
+            return null;
+          }
+        })() : null;
+
+        const payload = {
+          element_type: clickable.tagName.toLowerCase(),
+          element_identifier: getElementIdentifier(clickable),
+          element_text: sanitizeText(clickable.textContent || '').slice(0, 120),
+          element_href: clickable.tagName.toLowerCase() === 'a' ? clickable.getAttribute('href') : null,
+          page_path: window.location.pathname,
+          page_url: window.location.href,
+          referrer,
+          referrer_hostname: referrerHostname,
+          clicked_at: new Date().toISOString(),
+          ...utm
+        };
+
+        trackEvent('button_click', payload);
+      }, true);
+    }
+
+    initializeUmami();
+    initializeButtonTracking();
+
     // Theme toggle
     const themeToggle = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
