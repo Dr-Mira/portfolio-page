@@ -5,15 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects — Miroslav Kašpar</title>
 
-  <!-- Umami Analytics Configuration -->
-  <script>
-    window.PORTFOLIO_ANALYTICS_CONFIG = {
-      // Replace these values with your Umami instance details.
-      // Example script URL: "https://cloud.umami.is/script.js" or "https://analytics.yourdomain.com/script.js"
-      umamiScriptUrl: 'https://cloud.umami.is/script.js',
-      websiteId: 'REPLACE_WITH_UMAMI_WEBSITE_ID'
-    };
-  </script>
+  <!-- Umami Analytics -->
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="50171d5c-590b-4fff-a130-a2434d8f1fbc"></script>
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1151,26 +1144,6 @@
 
   <script>
     // Analytics
-    function initializeUmami() {
-      const config = window.PORTFOLIO_ANALYTICS_CONFIG || {};
-      const scriptUrl = config.umamiScriptUrl;
-      const websiteId = config.websiteId;
-
-      if (!scriptUrl || !websiteId || websiteId === 'REPLACE_WITH_UMAMI_WEBSITE_ID') {
-        return;
-      }
-
-      if (document.querySelector('script[data-website-id]')) {
-        return;
-      }
-
-      const script = document.createElement('script');
-      script.defer = true;
-      script.src = scriptUrl;
-      script.setAttribute('data-website-id', websiteId);
-      document.head.appendChild(script);
-    }
-
     function getUtmParams() {
       const params = new URLSearchParams(window.location.search);
       return {
@@ -1242,7 +1215,6 @@
       }, true);
     }
 
-    initializeUmami();
     initializeButtonTracking();
 
     // Theme toggle
