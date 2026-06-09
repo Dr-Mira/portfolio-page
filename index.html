@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projects — Miroslav Kašpar</title>
+  <title>Projects, Miroslav Kašpar</title>
 
   <!-- Umami Analytics -->
   <script defer src="https://cloud.umami.is/script.js" data-website-id="50171d5c-590b-4fff-a130-a2434d8f1fbc"></script>
@@ -1052,7 +1052,7 @@
             with a gentle dry N₂ purge to prevent condensation from contaminating the LED → sample optical path.
           </p>
           <div class="project-links">
-            <button type="button" class="project-link nmr-view-details-btn">View Details →</button>
+            <a href="https://arxiv.org/abs/2604.24634" class="project-link nmr-view-details-btn" target="_blank" rel="noopener noreferrer">View Details →</a>
           </div>
         </div>
       </div>
@@ -1080,7 +1080,7 @@
             programmable on/off cycling in photostability studies.
           </p>
           <div class="project-links">
-            <button type="button" class="project-link uv-vis-view-details-btn">View Details →</button>
+            <a href="https://arxiv.org/abs/2604.24634" class="project-link uv-vis-view-details-btn" target="_blank" rel="noopener noreferrer">View Details →</a>
           </div>
         </div>
       </div>
@@ -1109,7 +1109,7 @@
             to tune light balance, and thermal drift stayed minimal (&lt;0.2 °C over 120 min at full LED power).
           </p>
           <div class="project-links">
-            <button type="button" class="project-link bio-view-details-btn">View Details →</button>
+            <a href="https://arxiv.org/abs/2604.24634" class="project-link bio-view-details-btn" target="_blank" rel="noopener noreferrer">View Details →</a>
           </div>
         </div>
       </div>
@@ -1137,7 +1137,7 @@
             the power of five distinct diodes to find the solution with maximum total irradiance and minimal energy spread.
           </p>
           <div class="project-links">
-            <button type="button" class="project-link plate-view-details-btn">View Details →</button>
+            <a href="https://arxiv.org/abs/2604.24634" class="project-link plate-view-details-btn" target="_blank" rel="noopener noreferrer">View Details →</a>
           </div>
         </div>
       </div>
@@ -1183,7 +1183,7 @@
 
           </p>
           <div class="project-links">
-            <button type="button" class="project-link photochem-view-details-btn">View Details →</button>
+            <a href="https://arxiv.org/abs/2604.24634" class="project-link photochem-view-details-btn" target="_blank" rel="noopener noreferrer">View Details →</a>
           </div>
         </div>
       </div>
@@ -1827,14 +1827,6 @@
         oligoLimsRepoButton.textContent = 'Repo Private';
       });
 
-      const manuscriptButtons = document.querySelectorAll('.nmr-view-details-btn, .uv-vis-view-details-btn, .bio-view-details-btn, .plate-view-details-btn, .photochem-view-details-btn');
-      manuscriptButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-          button.textContent = 'Manuscript in preparation';
-          button.classList.add('project-link-secondary', 'project-link-disabled');
-          button.disabled = true;
-        });
-      });
     }
 
     initializeCarousels();
